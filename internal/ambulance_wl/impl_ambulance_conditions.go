@@ -8,15 +8,15 @@ import (
 
 // Nasledujúci kód je kópiou vygenerovaného a zakomentovaného kódu zo súboru api_ambulance_conditions.go
 func (this *implAmbulanceConditionsAPI) GetConditions(ctx *gin.Context) {
-		// update ambulance document
+	// update ambulance document
 	updateAmbulanceFunc(ctx, func(
 		ctx *gin.Context,
 		ambulance *Ambulance,
-) (updatedAmbulance *Ambulance, responseContent interface{}, status int) {
+	) (updatedAmbulance *Ambulance, responseContent interface{}, status int) {
 		result := ambulance.PredefinedConditions
 		if result == nil {
-				result = []Condition{}
+			result = []Condition{}
 		}
 		return nil, result, http.StatusOK
-})
+	})
 }

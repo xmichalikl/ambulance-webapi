@@ -14,12 +14,12 @@ import (
 )
 
 type AmbulanceWlSuite struct {
-    suite.Suite
-		dbServiceMock *DbServiceMock[Ambulance]
+	suite.Suite
+	dbServiceMock *DbServiceMock[Ambulance]
 }
 
 func TestAmbulanceWlSuite(t *testing.T) {
-    suite.Run(t, new(AmbulanceWlSuite))
+	suite.Run(t, new(AmbulanceWlSuite))
 }
 
 type DbServiceMock[DocType interface{}] struct {
@@ -58,50 +58,50 @@ func (suite *AmbulanceWlSuite) SetupTest() {
 	var _ db_service.DbService[Ambulance] = suite.dbServiceMock
 
 	suite.dbServiceMock.
-			On("FindDocument", mock.Anything, mock.Anything).
-			Return(
-					&Ambulance{
-							Id: "test-ambulance",
-							WaitingList: []WaitingListEntry{
-									{
-											Id:                       "test-entry",
-											PatientId:                "test-patient",
-											WaitingSince:             time.Now(),
-											EstimatedDurationMinutes: 101,
-									},
-							},
+		On("FindDocument", mock.Anything, mock.Anything).
+		Return(
+			&Ambulance{
+				Id: "test-ambulance",
+				WaitingList: []WaitingListEntry{
+					{
+						Id:                       "test-entry",
+						PatientId:                "test-patient",
+						WaitingSince:             time.Now(),
+						EstimatedDurationMinutes: 101,
 					},
-					nil,
-			)
+				},
+			},
+			nil,
+		)
 }
 
 func (suite *AmbulanceWlSuite) Test_UpdateWl_DbServiceUpdateCalled() {
-    // ARRANGE
-		suite.dbServiceMock.
+	// ARRANGE
+	suite.dbServiceMock.
 		On("UpdateDocument", mock.Anything, mock.Anything, mock.Anything).
 		Return(nil)
-		
-		json := `{
+
+	json := `{
 			"id": "test-entry",
 			"patientId": "test-patient",
 			"estimatedDurationMinutes": 42
 		}`
 
-		gin.SetMode(gin.TestMode)
-		recorder := httptest.NewRecorder()
-		ctx, _ := gin.CreateTestContext(recorder)
-		ctx.Set("db_service", suite.dbServiceMock)
-		ctx.Params = []gin.Param{
-				{Key: "ambulanceId", Value: "test-ambulance"},
-				{Key: "entryId", Value: "test-entry"},
-		}
-		ctx.Request = httptest.NewRequest("POST", "/ambulance/test-ambulance/waitinglist/test-entry", strings.NewReader(json))
-		sut := implAmbulanceWaitingListAPI{}
-		
-    // ACT
-		sut.UpdateWaitingListEntry(ctx)
+	gin.SetMode(gin.TestMode)
+	recorder := httptest.NewRecorder()
+	ctx, _ := gin.CreateTestContext(recorder)
+	ctx.Set("db_service", suite.dbServiceMock)
+	ctx.Params = []gin.Param{
+		{Key: "ambulanceId", Value: "test-ambulance"},
+		{Key: "entryId", Value: "test-entry"},
+	}
+	ctx.Request = httptest.NewRequest("POST", "/ambulance/test-ambulance/waitinglist/test-entry", strings.NewReader(json))
+	sut := implAmbulanceWaitingListAPI{}
 
-    // ASSERT
-		suite.dbServiceMock.AssertCalled(suite.T(), "UpdateDocument", mock.Anything, "test-ambulance", mock.Anything)
+	// ACT
+	sut.UpdateWaitingListEntry(ctx)
+
+	// ASSERT
+	suite.dbServiceMock.AssertCalled(suite.T(), "UpdateDocument", mock.Anything, "test-ambulance", mock.Anything)
 
 }

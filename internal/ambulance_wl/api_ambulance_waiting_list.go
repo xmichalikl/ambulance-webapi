@@ -35,24 +35,22 @@ type AmbulanceWaitingListAPI interface {
 
 	// UpdateWaitingListEntry - Updates specific entry
 	UpdateWaitingListEntry(ctx *gin.Context)
-
 }
 
 // partial implementation of AmbulanceWaitingListAPI - all functions must be implemented in add on files
 type implAmbulanceWaitingListAPI struct {
-
 }
 
 func newAmbulanceWaitingListAPI() AmbulanceWaitingListAPI {
-  return &implAmbulanceWaitingListAPI{}
+	return &implAmbulanceWaitingListAPI{}
 }
 
 func (this *implAmbulanceWaitingListAPI) addRoutes(routerGroup *gin.RouterGroup) {
-  routerGroup.Handle( http.MethodPost, "/waiting-list/:ambulanceId/entries", this.CreateWaitingListEntry)
-  routerGroup.Handle( http.MethodDelete, "/waiting-list/:ambulanceId/entries/:entryId", this.DeleteWaitingListEntry)
-  routerGroup.Handle( http.MethodGet, "/waiting-list/:ambulanceId/entries", this.GetWaitingListEntries)
-  routerGroup.Handle( http.MethodGet, "/waiting-list/:ambulanceId/entries/:entryId", this.GetWaitingListEntry)
-  routerGroup.Handle( http.MethodPut, "/waiting-list/:ambulanceId/entries/:entryId", this.UpdateWaitingListEntry)
+	routerGroup.Handle(http.MethodPost, "/waiting-list/:ambulanceId/entries", this.CreateWaitingListEntry)
+	routerGroup.Handle(http.MethodDelete, "/waiting-list/:ambulanceId/entries/:entryId", this.DeleteWaitingListEntry)
+	routerGroup.Handle(http.MethodGet, "/waiting-list/:ambulanceId/entries", this.GetWaitingListEntries)
+	routerGroup.Handle(http.MethodGet, "/waiting-list/:ambulanceId/entries/:entryId", this.GetWaitingListEntry)
+	routerGroup.Handle(http.MethodPut, "/waiting-list/:ambulanceId/entries/:entryId", this.UpdateWaitingListEntry)
 }
 
 // Copy following section to separate file, uncomment, and implement accordingly
@@ -81,4 +79,3 @@ func (this *implAmbulanceWaitingListAPI) addRoutes(routerGroup *gin.RouterGroup)
 //  	ctx.AbortWithStatus(http.StatusNotImplemented)
 // }
 //
-

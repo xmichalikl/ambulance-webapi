@@ -11,5 +11,5 @@ import (
 var openapiSpec []byte
 
 func HandleOpenApi(ctx *gin.Context) {
-    ctx.Data(http.StatusOK, "application/yaml", openapiSpec)
+	ctx.Data(http.StatusOK, "application/yaml", openapiSpec)
 }

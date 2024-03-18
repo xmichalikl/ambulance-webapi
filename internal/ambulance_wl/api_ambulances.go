@@ -26,21 +26,19 @@ type AmbulancesAPI interface {
 
 	// DeleteAmbulance - Deletes specific ambulance
 	DeleteAmbulance(ctx *gin.Context)
-
 }
 
 // partial implementation of AmbulancesAPI - all functions must be implemented in add on files
 type implAmbulancesAPI struct {
-
 }
 
 func newAmbulancesAPI() AmbulancesAPI {
-  return &implAmbulancesAPI{}
+	return &implAmbulancesAPI{}
 }
 
 func (this *implAmbulancesAPI) addRoutes(routerGroup *gin.RouterGroup) {
-  routerGroup.Handle( http.MethodPost, "/ambulance", this.CreateAmbulance)
-  routerGroup.Handle( http.MethodDelete, "/ambulance/:ambulanceId", this.DeleteAmbulance)
+	routerGroup.Handle(http.MethodPost, "/ambulance", this.CreateAmbulance)
+	routerGroup.Handle(http.MethodDelete, "/ambulance/:ambulanceId", this.DeleteAmbulance)
 }
 
 // Copy following section to separate file, uncomment, and implement accordingly
@@ -54,4 +52,3 @@ func (this *implAmbulancesAPI) addRoutes(routerGroup *gin.RouterGroup) {
 //  	ctx.AbortWithStatus(http.StatusNotImplemented)
 // }
 //
-

@@ -23,20 +23,18 @@ type AmbulanceConditionsAPI interface {
 
 	// GetConditions - Provides the list of conditions associated with ambulance
 	GetConditions(ctx *gin.Context)
-
 }
 
 // partial implementation of AmbulanceConditionsAPI - all functions must be implemented in add on files
 type implAmbulanceConditionsAPI struct {
-
 }
 
 func newAmbulanceConditionsAPI() AmbulanceConditionsAPI {
-  return &implAmbulanceConditionsAPI{}
+	return &implAmbulanceConditionsAPI{}
 }
 
 func (this *implAmbulanceConditionsAPI) addRoutes(routerGroup *gin.RouterGroup) {
-  routerGroup.Handle( http.MethodGet, "/waiting-list/:ambulanceId/condition", this.GetConditions)
+	routerGroup.Handle(http.MethodGet, "/waiting-list/:ambulanceId/condition", this.GetConditions)
 }
 
 // Copy following section to separate file, uncomment, and implement accordingly
@@ -45,4 +43,3 @@ func (this *implAmbulanceConditionsAPI) addRoutes(routerGroup *gin.RouterGroup) 
 //  	ctx.AbortWithStatus(http.StatusNotImplemented)
 // }
 //
-
